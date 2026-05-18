@@ -2,19 +2,16 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Sistemas Operativos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consigna · Sistemas Operativos</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ─── RESET & BASE ─── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --bg:     #080f1e;
   --mid:    #0d1a2e;
-  --card:   #101f35;
-  --card2:  #0c1828;
+  --card:   #0f1e33;
   --cyan:   #00d4ff;
   --green:  #00f0a0;
   --orange: #ff7a35;
@@ -22,949 +19,638 @@
   --yellow: #ffd166;
   --white:  #f0f6ff;
   --gray:   #6b8aaa;
-  --dim:    #1a2d42;
+  --dim:    #1e3148;
 }
 
-html, body {
-  height: 100%;
-  overflow: hidden;
+body {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
   background: var(--bg);
   color: var(--white);
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── SLIDE CONTAINER ─── */
-#slides {
-  width: 100%;
-  height: 100dvh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+/* ── HEADER ── */
+.top-bar {
+  background: var(--mid);
+  border-bottom: 3px solid var(--cyan);
+  padding: 18px 24px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
-#slides::-webkit-scrollbar { display: none; }
-
-/* ─── EACH SLIDE ─── */
-.slide {
-  width: 100%;
-  height: 100dvh;
-  min-height: 100dvh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  padding: 0;
-}
-
-/* ─── PROGRESS BAR ─── */
-#progress-bar {
-  position: fixed;
-  top: 0; left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--cyan), var(--green));
-  transition: width .35s ease;
-  z-index: 100;
-  border-radius: 0 2px 2px 0;
-}
-
-/* ─── SLIDE COUNTER ─── */
-#counter {
-  position: fixed;
-  bottom: 18px; right: 18px;
-  font-size: 11px;
+.top-bar .label {
   font-family: 'JetBrains Mono', monospace;
-  color: var(--gray);
-  background: rgba(8,15,30,.7);
-  padding: 4px 10px;
-  border-radius: 20px;
-  z-index: 100;
-  backdrop-filter: blur(8px);
-  letter-spacing: 1px;
-}
-
-/* ─── NAV DOTS ─── */
-#dots {
-  position: fixed;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  z-index: 100;
-}
-.dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--dim);
-  transition: all .3s;
-  cursor: pointer;
-}
-.dot.active { background: var(--cyan); transform: scale(1.6); }
-
-/* ─── SLIDE INNER ─── */
-.slide-inner {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 36px 24px 56px;
-  position: relative;
-  z-index: 2;
-}
-
-/* ─── EYEBROW ─── */
-.eyebrow {
   font-size: 10px;
-  font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
   letter-spacing: 3px;
-  margin-bottom: 14px;
-  opacity: .7;
-}
-
-/* ─── SLIDE TITLE ─── */
-.slide-title {
-  font-size: clamp(28px, 8vw, 42px);
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 20px;
-  letter-spacing: -0.5px;
-}
-
-/* ─── BODY TEXT ─── */
-.slide-body {
-  font-size: clamp(14px, 4vw, 17px);
-  line-height: 1.7;
-  color: #a8c0d6;
-}
-
-/* ─── ACCENT LINE ─── */
-.accent-line {
-  width: 48px; height: 3px;
-  border-radius: 2px;
-  margin-bottom: 18px;
-}
-
-/* ══════════════════════════════════
-   SLIDE 1 — PORTADA
-══════════════════════════════════ */
-#s1 { background: var(--bg); }
-#s1 .bg-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(0,212,255,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,255,.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-#s1 .glow-orb {
-  position: absolute;
-  width: 280px; height: 280px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,212,255,.15) 0%, transparent 70%);
-  top: -60px; right: -60px;
-  pointer-events: none;
-}
-#s1 .glow-orb2 {
-  position: absolute;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(192,132,252,.12) 0%, transparent 70%);
-  bottom: 40px; left: -40px;
-  pointer-events: none;
-}
-.cover-tag {
-  display: inline-block;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border: 1px solid rgba(0,212,255,.4);
-  color: var(--cyan);
-  padding: 5px 12px;
-  border-radius: 4px;
-  margin-bottom: 24px;
-}
-.cover-title {
-  font-size: clamp(38px, 11vw, 60px);
-  font-weight: 800;
-  line-height: 1.0;
-  letter-spacing: -1px;
-}
-.cover-title span { color: var(--cyan); display: block; }
-.cover-sub {
-  font-size: 15px;
   color: var(--gray);
-  margin-top: 16px;
-  line-height: 1.6;
+  margin-bottom: 4px;
 }
-.cover-scroll {
-  position: absolute;
-  bottom: 28px; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  color: var(--gray);
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 1px;
-  animation: bounce 2s infinite;
+.top-bar h1 {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
 }
-@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
-.arrow-down { font-size: 18px; }
+.top-bar h1 span { color: var(--cyan); }
 
-/* ══════════════════════════════════
-   SLIDE 2 — ¿QUÉ ES UN SO?
-══════════════════════════════════ */
-#s2 { background: var(--mid); }
-.def-box {
-  background: rgba(0,212,255,.07);
-  border: 1px solid rgba(0,212,255,.25);
-  border-left: 3px solid var(--cyan);
-  border-radius: 10px;
+/* ── MAIN ── */
+.main { padding: 20px 18px 60px; max-width: 680px; margin: 0 auto; }
+
+/* ── CONSIGNA BOX ── */
+.consigna {
+  background: linear-gradient(135deg, rgba(0,212,255,.08), rgba(192,132,252,.06));
+  border: 1px solid rgba(0,212,255,.3);
+  border-left: 4px solid var(--cyan);
+  border-radius: 12px;
   padding: 16px 18px;
-  font-size: 15px;
-  line-height: 1.75;
-  color: var(--white);
   margin-bottom: 22px;
 }
-.bridge-row {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  margin-top: 6px;
-}
-.bridge-box {
-  flex: 1;
-  border-radius: 10px;
-  padding: 14px 10px;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.bridge-box .bb-icon { font-size: 26px; margin-bottom: 6px; display: block; }
-.bridge-box .bb-label { font-size: 10px; opacity: .7; font-weight: 400; margin-top: 4px; display: block; }
-.bridge-arrow {
-  display: flex; align-items: center;
-  padding: 0 4px;
-  color: var(--gray);
-  font-size: 20px;
-}
-
-/* ══════════════════════════════════
-   SLIDE 3 — FUNCIONES
-══════════════════════════════════ */
-#s3 { background: var(--bg); }
-.func-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 4px;
-}
-.func-card {
-  border-radius: 12px;
-  padding: 14px 13px;
-  background: var(--card);
-  border: 1px solid rgba(255,255,255,.06);
-}
-.func-card .fc-icon { font-size: 24px; margin-bottom: 7px; display: block; }
-.func-card .fc-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
-.func-card .fc-desc  { font-size: 11px; color: var(--gray); line-height: 1.5; }
-.func-card.span2 { grid-column: 1 / -1; display: flex; gap: 12px; align-items: center; }
-.func-card.span2 .fc-icon { margin: 0; font-size: 28px; flex-shrink: 0; }
-.func-card.span2 .fc-text { flex: 1; }
-
-/* ══════════════════════════════════
-   SLIDE 4 — HISTORIA
-══════════════════════════════════ */
-#s4 { background: var(--mid); }
-.timeline { position: relative; padding-left: 26px; }
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 8px; top: 8px; bottom: 8px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--cyan), var(--orange));
-  border-radius: 1px;
-}
-.tl-item { position: relative; margin-bottom: 20px; }
-.tl-item:last-child { margin-bottom: 0; }
-.tl-dot {
-  position: absolute;
-  left: -22px; top: 5px;
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-}
-.tl-year {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 3px;
-}
-.tl-text { font-size: 13px; color: #8faabb; line-height: 1.55; }
-
-/* ══════════════════════════════════
-   SLIDE 5 — TIPOS
-══════════════════════════════════ */
-#s5 { background: var(--bg); }
-.tipos-list { display: flex; flex-direction: column; gap: 9px; }
-.tipo-row {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 13px 15px;
-  display: flex;
-  align-items: flex-start;
-  gap: 13px;
-  border: 1px solid rgba(255,255,255,.05);
-}
-.tipo-row .tr-icon {
-  font-size: 22px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.tipo-row .tr-label {
+.consigna .c-title {
   font-size: 11px;
-  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 3px;
-}
-.tipo-row .tr-content {
-  font-size: 13px;
-  color: var(--gray);
-  line-height: 1.5;
-}
-.tipo-row .tr-content strong { color: var(--white); font-weight: 600; }
-
-/* ══════════════════════════════════
-   SLIDE 6 — PROPIETARIO vs ABIERTO
-══════════════════════════════════ */
-#s6 { background: var(--mid); }
-.vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-.vs-col { padding: 0 4px; }
-.vs-col-title {
-  font-size: 13px; font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 10px 12px;
-  border-radius: 8px 8px 0 0;
-  text-align: center;
-  margin-bottom: 2px;
-}
-.vs-row {
-  display: flex;
-  flex-direction: column;
-  background: var(--card);
-  border: 1px solid rgba(255,255,255,.05);
-  margin-bottom: 2px;
-  padding: 10px 12px;
-}
-.vs-row:last-child { border-radius: 0 0 8px 8px; }
-.vs-attr { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; opacity: .55; margin-bottom: 3px; font-family: 'JetBrains Mono', monospace; }
-.vs-val  { font-size: 12px; line-height: 1.4; }
-.vs-divider {
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  position: relative;
-}
-.vs-badge {
-  position: absolute;
-  left: 50%; transform: translateX(-50%);
-  top: 50%;
-  margin-top: -16px;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--card);
-  border: 2px solid var(--cyan);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800;
+  letter-spacing: 2px;
   color: var(--cyan);
-  z-index: 5;
-  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 8px;
 }
-
-/* ══════════════════════════════════
-   SLIDE 7 — STALLMAN
-══════════════════════════════════ */
-#s7 { background: var(--bg); }
-.rms-header {
-  display: flex; gap: 16px; align-items: center;
-  background: var(--card);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(0,240,160,.2);
-}
-.rms-avatar {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(0,240,160,.2), rgba(0,212,255,.1));
-  border: 2px solid var(--green);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 800;
-  color: var(--green);
-  font-family: 'JetBrains Mono', monospace;
-  flex-shrink: 0;
-}
-.rms-info h3 { font-size: 16px; font-weight: 800; margin-bottom: 3px; }
-.rms-info p  { font-size: 12px; color: var(--gray); line-height: 1.4; }
-.rms-tag {
-  display: inline-block;
-  font-size: 10px;
-  background: rgba(0,240,160,.15);
-  color: var(--green);
-  border-radius: 4px;
-  padding: 2px 8px;
-  margin-top: 5px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.quote-box {
-  background: rgba(0,240,160,.07);
-  border-left: 3px solid var(--green);
-  border-radius: 0 10px 10px 0;
-  padding: 13px 15px;
-  margin-bottom: 16px;
-  font-style: italic;
+.consigna p {
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.75;
   color: var(--white);
 }
-.quote-box cite { display: block; margin-top: 6px; font-size: 11px; color: var(--gray); font-style: normal; }
-.hitos { display: flex; flex-direction: column; gap: 8px; }
-.hito {
-  display: flex; gap: 12px; align-items: flex-start;
-  background: var(--card);
-  border-radius: 8px;
-  padding: 10px 13px;
-}
-.hito-year {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 700;
-  flex-shrink: 0; width: 36px;
-}
-.hito-text { font-size: 12px; color: var(--gray); line-height: 1.5; }
+.consigna p + p { margin-top: 8px; }
 
-/* ══════════════════════════════════
-   SLIDE 8 — 4 LIBERTADES
-══════════════════════════════════ */
-#s8 { background: var(--mid); }
-.lib-subtitle {
-  font-size: 11px;
-  color: var(--gray);
-  margin-bottom: 18px;
-  line-height: 1.5;
-  font-family: 'JetBrains Mono', monospace;
-}
-.libertades { display: flex; flex-direction: column; gap: 10px; }
-.libertad-card {
-  border-radius: 12px;
-  padding: 15px 16px;
-  background: var(--card);
-  border: 1px solid rgba(255,255,255,.06);
+/* ── SECTION HEADER ── */
+.section-header {
   display: flex;
-  gap: 14px;
-  align-items: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin: 26px 0 12px;
 }
-.lib-num {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; font-weight: 800;
+.section-header .sh-line { flex: 1; height: 1px; background: var(--dim); }
+.section-header .sh-badge {
+  font-size: 11px;
+  font-weight: 700;
   font-family: 'JetBrains Mono', monospace;
-  flex-shrink: 0;
-}
-.lib-body {}
-.lib-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-.lib-desc  { font-size: 12px; color: var(--gray); line-height: 1.55; }
-.lib-example { font-size: 11px; margin-top: 6px; line-height: 1.4; padding: 6px 9px; border-radius: 6px; font-style: italic; }
-.lib-note {
-  background: rgba(255,122,53,.1);
-  border: 1px solid rgba(255,122,53,.3);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--white);
-  margin-top: 12px;
-}
-
-/* ══════════════════════════════════
-   SLIDE 9 — ACTIVIDAD
-══════════════════════════════════ */
-#s9 {
-  background: var(--bg);
-  background-image: radial-gradient(ellipse at 80% 20%, rgba(0,212,255,.1) 0%, transparent 50%),
-                    radial-gradient(ellipse at 20% 80%, rgba(192,132,252,.08) 0%, transparent 50%);
-}
-.activity-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.act-step {
-  display: flex; gap: 14px; align-items: flex-start;
-  background: var(--card);
-  border-radius: 12px;
-  padding: 14px 15px;
-  border: 1px solid rgba(255,255,255,.06);
-}
-.act-num {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  background: var(--cyan);
-  color: var(--bg);
-  font-weight: 800; font-size: 14px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.act-text strong { display: block; font-size: 14px; margin-bottom: 3px; }
-.act-text span   { font-size: 12px; color: var(--gray); line-height: 1.5; }
-.activity-btn {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--cyan), #0099cc);
-  color: var(--bg);
-  font-size: 15px; font-weight: 800;
-  text-align: center;
-  text-decoration: none;
-  letter-spacing: .5px;
-  box-shadow: 0 4px 24px rgba(0,212,255,.3);
-  border: none;
-  cursor: pointer;
-}
-
-/* ─── DECORATIVE BG NUMBERS ─── */
-.bg-num {
-  position: absolute;
-  font-size: 180px;
-  font-weight: 800;
-  font-family: 'Space Grotesk', sans-serif;
-  opacity: .03;
-  right: -20px; bottom: 20px;
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-  letter-spacing: -10px;
-}
-
-/* ─── SWIPE HINT ─── */
-.swipe-hint {
-  position: absolute;
-  bottom: 20px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 1px;
-  color: var(--gray);
-  opacity: .6;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 20px;
   white-space: nowrap;
 }
+
+/* ── QUESTION ITEM ── */
+.q-block {
+  background: var(--card);
+  border: 1px solid var(--dim);
+  border-radius: 10px;
+  padding: 13px 15px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.q-block .q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  letter-spacing: .5px;
+}
+.q-block .q-body { flex: 1; }
+.q-block .q-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.45;
+  margin-bottom: 4px;
+}
+.q-block .q-hint {
+  font-size: 12px;
+  color: var(--gray);
+  line-height: 1.55;
+}
+.q-block .q-hint strong { color: var(--offW); }
+
+/* ── REQ TABLE ── */
+.req-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4px;
+  font-size: 12px;
+}
+.req-table th {
+  text-align: left;
+  padding: 7px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gray);
+  border-bottom: 1px solid var(--dim);
+}
+.req-table td {
+  padding: 7px 10px;
+  color: var(--white);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.req-table tr:last-child td { border-bottom: none; }
+.req-table td:first-child {
+  font-weight: 700;
+  color: var(--offW);
+  white-space: nowrap;
+  font-size: 12px;
+}
+.req-table td.cpu  { color: var(--cyan); }
+.req-table td.ram  { color: var(--green); }
+.req-table td.disk { color: var(--orange); }
+.req-table td.arch { color: var(--purple); }
+
+.req-card {
+  background: var(--card);
+  border: 1px solid var(--dim);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.req-card-name {
+  padding: 9px 14px;
+  background: rgba(255,255,255,.04);
+  border-bottom: 1px solid var(--dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.req-card-name .icon { font-size: 18px; }
+.req-card-name .cat-badge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.req-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.req-cell {
+  padding: 8px 14px;
+  border-right: 1px solid var(--dim);
+  border-bottom: 1px solid var(--dim);
+}
+.req-cell:nth-child(even) { border-right: none; }
+.req-cell:nth-last-child(-n+2) { border-bottom: none; }
+.req-cell .rc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+.req-cell .rc-val { font-size: 12px; color: var(--white); line-height: 1.4; }
+
+/* filter buttons */
+.filter-row {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.filter-row input {
+  flex: 1;
+  min-width: 160px;
+  background: var(--card);
+  border: 1px solid var(--dim);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--white);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+.filter-row input::placeholder { color: var(--gray); }
+.filter-row input:focus { border-color: rgba(0,212,255,.4); }
+.fbtn {
+  padding: 8px 13px;
+  border-radius: 8px;
+  border: 1px solid var(--dim);
+  background: var(--card);
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+}
+.fbtn.active { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
+.fbtn:hover:not(.active) { border-color: var(--gray); }
+.count { font-size: 11px; color: var(--gray); margin-bottom: 10px; font-family: 'JetBrains Mono', monospace; }
+
+/* ── ETAPAS ── */
+.etapas { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.etapa {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  background: var(--card);
+  border: 1px solid var(--dim);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.etapa .e-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px;
+  flex-shrink: 0;
+}
+.etapa .e-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.etapa .e-desc  { font-size: 12px; color: var(--gray); line-height: 1.55; }
+
+/* ── EVALUACION ── */
+.eval-rows { display: flex; flex-direction: column; gap: 6px; }
+.eval-row {
+  background: var(--card);
+  border: 1px solid var(--dim);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.eval-left { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--white); }
+.eval-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.eval-pct  { font-weight: 800; font-size: 14px; font-family: 'JetBrains Mono', monospace; }
+
+/* ── NOTE ── */
+.note {
+  background: rgba(255,209,102,.07);
+  border: 1px solid rgba(255,209,102,.25);
+  border-left: 3px solid var(--yellow);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 13px;
+  color: var(--white);
+  line-height: 1.65;
+  margin-top: 20px;
+}
+.note strong { color: var(--yellow); }
+
+:root { --offW: #c8d8e8; }
 </style>
 </head>
 <body>
 
-<div id="progress-bar" style="width:11.1%"></div>
-<div id="counter">01 / 09</div>
-<div id="dots">
-  <div class="dot active"  onclick="goTo(0)"></div>
-  <div class="dot"         onclick="goTo(1)"></div>
-  <div class="dot"         onclick="goTo(2)"></div>
-  <div class="dot"         onclick="goTo(3)"></div>
-  <div class="dot"         onclick="goTo(4)"></div>
-  <div class="dot"         onclick="goTo(5)"></div>
-  <div class="dot"         onclick="goTo(6)"></div>
-  <div class="dot"         onclick="goTo(7)"></div>
-  <div class="dot"         onclick="goTo(8)"></div>
+<!-- ── HEADER ── -->
+<div class="top-bar">
+  <div class="label">Informática · Educación Secundaria</div>
+  <h1>Actividad de Investigación — <span>Sistemas Operativos</span></h1>
 </div>
 
-<div id="slides">
+<div class="main">
 
-<!-- ══ SLIDE 1 — PORTADA ══ -->
-<div class="slide" id="s1">
-  <div class="bg-grid"></div>
-  <div class="glow-orb"></div>
-  <div class="glow-orb2"></div>
-  <div class="slide-inner" style="justify-content:flex-end;padding-bottom:90px">
-    <div class="cover-tag">Informática · Secundaria</div>
-    <div class="cover-title">
-      Sistemas<span>Operativos</span>
-    </div>
-    <p class="cover-sub">Propietarios y de Código Abierto<br>Historia · Funciones · Tipos · Libertades</p>
+  <!-- CONSIGNA -->
+  <div class="consigna">
+    <div class="c-title">📋 Consigna general</div>
+    <p>Elegí un sistema operativo de la lista, investigá sus características usando las preguntas guía y preparate para presentarlo oralmente a la clase en <strong>3 a 5 minutos</strong>. Podés acompañar tu exposición con una lámina, diapositivas o hablar directamente.</p>
+    <p>Las preguntas están organizadas en tres bloques: <strong>investigación general</strong>, <strong>requerimientos mínimos de hardware</strong> y <strong>análisis crítico</strong>. Usalas como guía para tu búsqueda, no como un formulario a completar.</p>
   </div>
-  <div class="cover-scroll">
-    <span>deslizá</span>
-    <span class="arrow-down">↓</span>
-  </div>
-</div>
 
-<!-- ══ SLIDE 2 — ¿QUÉ ES UN SO? ══ -->
-<div class="slide" id="s2">
-  <div class="slide-inner">
-    <div class="bg-num">SO</div>
-    <div class="eyebrow" style="color:var(--cyan)">// 01 · Definición</div>
-    <div class="accent-line" style="background:var(--cyan)"></div>
-    <div class="slide-title">¿Qué es un Sistema<br>Operativo?</div>
-    <div class="def-box">
-      Un <strong>Sistema Operativo (SO)</strong> es el software fundamental que actúa como <strong>intermediario</strong> entre el hardware de la computadora y los programas del usuario. Sin él, la máquina no puede funcionar.
+  <!-- ETAPAS -->
+  <div class="section-header">
+    <div class="sh-line"></div>
+    <div class="sh-badge" style="background:rgba(0,212,255,.12);color:var(--cyan)">🗂 Etapas del trabajo</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="etapas">
+    <div class="etapa">
+      <div class="e-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">1</div>
+      <div>
+        <div class="e-title">Elegí un sistema operativo</div>
+        <div class="e-desc">Seleccioná uno de la lista. Puede ser uno que conozcas o uno que te genere curiosidad. Cuanto más diferente al que usás habitualmente, más vas a aprender.</div>
+      </div>
     </div>
-    <div class="bridge-row">
-      <div class="bridge-box" style="background:rgba(255,122,53,.12);border:1px solid rgba(255,122,53,.3)">
-        <span class="bb-icon">🔧</span>
-        <span style="color:var(--orange)">HARDWARE</span>
-        <span class="bb-label">CPU · RAM · Disco</span>
+    <div class="etapa">
+      <div class="e-num" style="background:rgba(0,240,160,.15);color:var(--green)">2</div>
+      <div>
+        <div class="e-title">Investigá usando las preguntas guía</div>
+        <div class="e-desc">Usá Wikipedia, el sitio oficial del SO, DistroWatch (para Linux) o YouTube. Usá al menos 2 fuentes distintas y anotá lo que encontraste con tus propias palabras.</div>
       </div>
-      <div class="bridge-arrow">→</div>
-      <div class="bridge-box" style="background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.3)">
-        <span class="bb-icon">⚙️</span>
-        <span style="color:var(--cyan)">SO</span>
-        <span class="bb-label">El puente</span>
+    </div>
+    <div class="etapa">
+      <div class="e-num" style="background:rgba(192,132,252,.15);color:var(--purple)">3</div>
+      <div>
+        <div class="e-title">Prepará tu presentación</div>
+        <div class="e-desc">Creá una lámina, diapositivas (PowerPoint, Canva, Google Slides) o simplemente organizá tus notas. No leas — explicá con tus palabras lo que aprendiste.</div>
       </div>
-      <div class="bridge-arrow">→</div>
-      <div class="bridge-box" style="background:rgba(0,240,160,.12);border:1px solid rgba(0,240,160,.3)">
-        <span class="bb-icon">👤</span>
-        <span style="color:var(--green)">USUARIO</span>
-        <span class="bb-label">Vos y tus apps</span>
+    </div>
+    <div class="etapa">
+      <div class="e-num" style="background:rgba(255,122,53,.15);color:var(--orange)">4</div>
+      <div>
+        <div class="e-title">Exponé a la clase</div>
+        <div class="e-desc">3 a 5 minutos. Empezá con algo que llame la atención — un dato curioso, una pregunta, una imagen. Al final tus compañeros/as podrán hacerte preguntas.</div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ══ SLIDE 3 — FUNCIONES ══ -->
-<div class="slide" id="s3">
-  <div class="slide-inner">
-    <div class="eyebrow" style="color:var(--green)">// 02 · Funciones</div>
-    <div class="accent-line" style="background:var(--green)"></div>
-    <div class="slide-title" style="font-size:clamp(24px,7vw,36px)">¿Para qué sirve<br>el SO?</div>
-    <div class="func-grid">
-      <div class="func-card" style="border-top:2px solid var(--cyan)">
-        <span class="fc-icon">⚙️</span>
-        <div class="fc-title" style="color:var(--cyan)">Procesador</div>
-        <div class="fc-desc">Decide qué programa usa la CPU y por cuánto tiempo.</div>
-      </div>
-      <div class="func-card" style="border-top:2px solid var(--green)">
-        <span class="fc-icon">💾</span>
-        <div class="fc-title" style="color:var(--green)">Memoria RAM</div>
-        <div class="fc-desc">Distribuye la RAM entre los programas activos.</div>
-      </div>
-      <div class="func-card" style="border-top:2px solid var(--orange)">
-        <span class="fc-icon">📁</span>
-        <div class="fc-title" style="color:var(--orange)">Archivos</div>
-        <div class="fc-desc">Organiza y recupera datos en el disco.</div>
-      </div>
-      <div class="func-card" style="border-top:2px solid var(--purple)">
-        <span class="fc-icon">🖥️</span>
-        <div class="fc-title" style="color:var(--purple)">Interfaz</div>
-        <div class="fc-desc">Muestra ventanas (GUI) o línea de comandos (CLI).</div>
-      </div>
-      <div class="func-card span2" style="border-top:2px solid var(--yellow)">
-        <span class="fc-icon">🔐</span>
-        <div class="fc-text">
-          <div class="fc-title" style="color:var(--yellow)">Seguridad y dispositivos</div>
-          <div class="fc-desc">Controla permisos de usuarios y gestiona periféricos: teclado, mouse, impresora…</div>
-        </div>
+  <!-- PREGUNTAS GENERALES -->
+  <div class="section-header">
+    <div class="sh-line"></div>
+    <div class="sh-badge" style="background:rgba(0,212,255,.12);color:var(--cyan)">🔍 Bloque 1 · Investigación general</div>
+    <div class="sh-line"></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">01</div>
+    <div class="q-body">
+      <div class="q-text">¿Quién lo desarrolló?</div>
+      <div class="q-hint">Indicá si fue una empresa privada o una comunidad voluntaria. Wikipedia muestra este dato en el recuadro lateral derecho.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">02</div>
+    <div class="q-body">
+      <div class="q-text">¿En qué año fue lanzado?</div>
+      <div class="q-hint">Si tiene varias versiones, indicá el año de la versión que elegiste investigar y también el año de la versión original si es relevante.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">03</div>
+    <div class="q-body">
+      <div class="q-text">¿Cómo se clasifica este sistema operativo?</div>
+      <div class="q-hint">Indicá al menos una clasificación por cada categoría: <strong>por licencia</strong> (propietario / código abierto), <strong>por interfaz</strong> (GUI / CLI / ambas), <strong>por usuarios</strong> (mono-usuario / multi-usuario) y <strong>por tareas</strong> (monotarea / multitarea).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">04</div>
+    <div class="q-body">
+      <div class="q-text">¿En qué dispositivos se usa?</div>
+      <div class="q-hint">PC de escritorio, laptop, servidor, celular, tablet, sistemas embebidos (autos, aviones, electrodomésticos), mainframes…</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">05</div>
+    <div class="q-body">
+      <div class="q-text">¿A qué tipo de usuario o ámbito está orientado?</div>
+      <div class="q-hint">Pensá en el nivel técnico del usuario típico y el entorno donde se usa: usuarios domésticos sin experiencia técnica, programadores y desarrolladores, administradores de servidores, profesionales de seguridad informática, ingenieros de sistemas embebidos, grandes corporaciones, etc.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">06</div>
+    <div class="q-body">
+      <div class="q-text">¿Tiene costo económico?</div>
+      <div class="q-hint">Gratuito, de pago, incluido con el hardware (como macOS) o modelo freemium. Mencioná también el tipo de licencia si la encontrás.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">07</div>
+    <div class="q-body">
+      <div class="q-text">¿Para qué se usa principalmente?</div>
+      <div class="q-hint">Describí el uso más frecuente: trabajo de oficina, desarrollo de software, servidores web, bases de datos, diseño gráfico, educación, seguridad informática, sistemas críticos, etc.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">08</div>
+    <div class="q-body">
+      <div class="q-text">Mencioná 2 ventajas del sistema operativo</div>
+      <div class="q-hint">Pensá en facilidad de uso, seguridad, velocidad, compatibilidad con programas, costo, privacidad, soporte técnico, comunidad, etc. Sé específico/a — evitá respuestas genéricas como "es bueno".</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">09</div>
+    <div class="q-body">
+      <div class="q-text">Mencioná 2 desventajas del sistema operativo</div>
+      <div class="q-hint">Ningún SO es perfecto. Buscá limitaciones reales: costo de licencia, vulnerabilidad a virus, dificultad de uso, compatibilidad de hardware o software, falta de soporte, etc.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">10</div>
+    <div class="q-body">
+      <div class="q-text">¿Encontraste alguna curiosidad interesante?</div>
+      <div class="q-hint">Algo que te haya sorprendido: un dato histórico, quién lo creó y bajo qué circunstancias, un uso inesperado, un récord, una anécdota técnica. Revisá la sección "Historia" en Wikipedia.</div>
+    </div>
+  </div>
+
+  <!-- REQUERIMIENTOS -->
+  <div class="section-header">
+    <div class="sh-line"></div>
+    <div class="sh-badge" style="background:rgba(255,122,53,.12);color:var(--orange)">💻 Bloque 2 · Requerimientos mínimos de hardware</div>
+    <div class="sh-line"></div>
+  </div>
+
+  <div class="q-block" style="border-color:rgba(255,122,53,.2)">
+    <div class="q-num" style="background:rgba(255,122,53,.15);color:var(--orange)">11</div>
+    <div class="q-body">
+      <div class="q-text">¿Qué procesador (CPU) mínimo requiere?</div>
+      <div class="q-hint">Buscá "system requirements [nombre del SO]" en el sitio oficial. El dato aparece como "Processor" o "Procesador" y se expresa en GHz o con el nombre del modelo (ej: Intel Core i3, AMD A4, ARM Cortex).</div>
+    </div>
+  </div>
+
+  <div class="q-block" style="border-color:rgba(255,122,53,.2)">
+    <div class="q-num" style="background:rgba(255,122,53,.15);color:var(--orange)">12</div>
+    <div class="q-body">
+      <div class="q-text">¿Cuánta memoria RAM mínima necesita?</div>
+      <div class="q-hint">Es la memoria necesaria solo para que el SO arranque y funcione, sin contar programas adicionales. Se mide en MB o GB.</div>
+    </div>
+  </div>
+
+  <div class="q-block" style="border-color:rgba(255,122,53,.2)">
+    <div class="q-num" style="background:rgba(255,122,53,.15);color:var(--orange)">13</div>
+    <div class="q-body">
+      <div class="q-text">¿Cuánto espacio mínimo ocupa en el disco?</div>
+      <div class="q-hint">Es el espacio que ocupa el SO instalado, sin contar tus archivos personales ni programas extra. Generalmente se mide en GB.</div>
+    </div>
+  </div>
+
+  <div class="q-block" style="border-color:rgba(255,122,53,.2)">
+    <div class="q-num" style="background:rgba(255,122,53,.15);color:var(--orange)">14</div>
+    <div class="q-body">
+      <div class="q-text">¿Qué arquitectura de procesador soporta?</div>
+      <div class="q-hint">La arquitectura define qué tipo de procesador puede correr el SO. Las más comunes son: x86 (32 bits), x86-64 (64 bits) y ARM (celulares, tablets, chips Apple Silicon). Algunos SO soportan varias arquitecturas.</div>
+    </div>
+  </div>
+
+  <div class="q-block" style="border-color:rgba(255,122,53,.2)">
+    <div class="q-num" style="background:rgba(255,122,53,.15);color:var(--orange)">15</div>
+    <div class="q-body">
+      <div class="q-text">¿Podría instalarse en una PC vieja de la escuela? ¿Por qué?</div>
+      <div class="q-hint">Una PC escolar de 5 a 10 años generalmente tiene: CPU de 1-2 GHz dual-core, 2-4 GB de RAM, disco de 100-250 GB y arquitectura x86-64. Compará esos datos con los requerimientos mínimos del SO que investigaste y justificá tu respuesta.</div>
+    </div>
+  </div>
+
+  <!-- ANÁLISIS CRÍTICO -->
+  <div class="section-header">
+    <div class="sh-line"></div>
+    <div class="sh-badge" style="background:rgba(0,240,160,.12);color:var(--green)">🧠 Bloque 3 · Análisis crítico</div>
+    <div class="sh-line"></div>
+  </div>
+
+  <div class="q-block" style="border-color:rgba(0,240,160,.2)">
+    <div class="q-num" style="background:rgba(0,240,160,.15);color:var(--green)">16</div>
+    <div class="q-body">
+      <div class="q-text">¿Cumple con las 4 libertades del software libre?</div>
+      <div class="q-hint">Analizá cada libertad por separado:<br>
+        <strong>Libertad 0 (usar):</strong> ¿podés usarlo para cualquier propósito sin restricciones?<br>
+        <strong>Libertad 1 (estudiar):</strong> ¿podés acceder y leer su código fuente?<br>
+        <strong>Libertad 2 (distribuir):</strong> ¿podés copiarlo y dárselo a otras personas libremente?<br>
+        <strong>Libertad 3 (mejorar):</strong> ¿podés modificarlo y publicar esos cambios?<br>
+        Si el SO tiene licencia GPL o MIT → cumple todas. Si tiene EULA (licencia propietaria) → no cumple ninguna o cumple parcialmente.
       </div>
     </div>
   </div>
-</div>
 
-<!-- ══ SLIDE 4 — HISTORIA ══ -->
-<div class="slide" id="s4">
-  <div class="slide-inner">
-    <div class="bg-num">⏱</div>
-    <div class="eyebrow" style="color:var(--yellow)">// 03 · Historia</div>
-    <div class="accent-line" style="background:var(--yellow)"></div>
-    <div class="slide-title" style="font-size:clamp(24px,7vw,36px)">Breve historia<br>de los SO</div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot" style="background:var(--gray)"></div>
-        <div class="tl-year" style="color:var(--gray)">1950s</div>
-        <div class="tl-text">Sin SO. Los programas se cargaban con tarjetas perforadas, uno a la vez.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:var(--cyan)"></div>
-        <div class="tl-year" style="color:var(--cyan)">1960s</div>
-        <div class="tl-text">Primeros SO. IBM OS/360 introduce la <strong style="color:var(--white)">multitarea</strong>: varias tareas a la vez.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:var(--green)"></div>
-        <div class="tl-year" style="color:var(--green)">1970s</div>
-        <div class="tl-text"><strong style="color:var(--white)">Unix</strong> nace en Bell Labs. Influyó en casi todos los SO modernos.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:var(--purple)"></div>
-        <div class="tl-year" style="color:var(--purple)">1985</div>
-        <div class="tl-text"><strong style="color:var(--white)">Windows 1.0</strong> y <strong style="color:var(--white)">Macintosh OS</strong>: llega la interfaz gráfica al público masivo.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:var(--orange)"></div>
-        <div class="tl-year" style="color:var(--orange)">1991</div>
-        <div class="tl-text">Linus Torvalds crea el núcleo <strong style="color:var(--white)">Linux</strong>. Nace el SO libre más importante de la historia.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:var(--yellow)"></div>
-        <div class="tl-year" style="color:var(--yellow)">2000s+</div>
-        <div class="tl-text">Expansión a celulares: <strong style="color:var(--white)">iOS</strong> (2007) y <strong style="color:var(--white)">Android</strong> (2008). Los SO llegan a todos los bolsillos.</div>
-      </div>
-    </div>
+  <!-- REQUERIMIENTOS POR SO -->
+  <div class="section-header">
+    <div class="sh-line"></div>
+    <div class="sh-badge" style="background:rgba(192,132,252,.12);color:var(--purple)">📊 Referencia · Requerimientos mínimos por SO</div>
+    <div class="sh-line"></div>
   </div>
-</div>
 
-<!-- ══ SLIDE 5 — TIPOS ══ -->
-<div class="slide" id="s5">
-  <div class="slide-inner">
-    <div class="eyebrow" style="color:var(--purple)">// 04 · Tipos</div>
-    <div class="accent-line" style="background:var(--purple)"></div>
-    <div class="slide-title" style="font-size:clamp(24px,7vw,36px)">Tipos de<br>Sistemas Operativos</div>
-    <div class="tipos-list">
-      <div class="tipo-row">
-        <span class="tr-icon">📜</span>
-        <div>
-          <div class="tr-label" style="color:var(--cyan)">Por licencia</div>
-          <div class="tr-content"><strong>Propietario</strong> — código cerrado (Windows, macOS)<br><strong>Código abierto</strong> — código visible (Linux, Ubuntu)</div>
-        </div>
-      </div>
-      <div class="tipo-row">
-        <span class="tr-icon">🖱️</span>
-        <div>
-          <div class="tr-label" style="color:var(--green)">Por interfaz</div>
-          <div class="tr-content"><strong>GUI</strong> — ventanas e íconos (Windows, macOS)<br><strong>CLI</strong> — solo texto y comandos (MS-DOS, Alpine)</div>
-        </div>
-      </div>
-      <div class="tipo-row">
-        <span class="tr-icon">👥</span>
-        <div>
-          <div class="tr-label" style="color:var(--orange)">Por usuarios</div>
-          <div class="tr-content"><strong>Mono-usuario</strong> — un usuario a la vez<br><strong>Multi-usuario</strong> — varios usuarios simultáneos</div>
-        </div>
-      </div>
-      <div class="tipo-row">
-        <span class="tr-icon">⚡</span>
-        <div>
-          <div class="tr-label" style="color:var(--purple)">Por tareas</div>
-          <div class="tr-content"><strong>Monotarea</strong> — una tarea a la vez<br><strong>Multitarea</strong> — varias tareas al mismo tiempo</div>
-        </div>
-      </div>
-    </div>
+  <p style="font-size:12px;color:var(--gray);margin-bottom:12px;line-height:1.55">Estos son los requerimientos mínimos oficiales de cada sistema operativo. Usalos como referencia para completar el Bloque 2 de tu investigación.</p>
+
+  <div class="filter-row">
+    <input type="text" id="req-search" placeholder="🔍 Buscar sistema operativo…" oninput="filtrarReqs()">
+    <button class="fbtn active" id="fb-todos"      onclick="setFiltroReq('todos')">Todos</button>
+    <button class="fbtn"        id="fb-propietario" onclick="setFiltroReq('propietario')">🔒 Propietario</button>
+    <button class="fbtn"        id="fb-abierto"     onclick="setFiltroReq('abierto')">🌿 Abierto</button>
   </div>
-</div>
+  <p class="count" id="req-count">34 sistemas</p>
+  <div id="req-list"></div>
 
-<!-- ══ SLIDE 6 — PROPIETARIO vs ABIERTO ══ -->
-<div class="slide" id="s6">
-  <div class="slide-inner" style="padding-top:28px">
-    <div class="eyebrow" style="color:var(--orange)">// 05 · Comparativa</div>
-    <div class="accent-line" style="background:var(--orange)"></div>
-    <div class="slide-title" style="font-size:clamp(22px,6.5vw,34px);margin-bottom:16px">Propietario<br>vs Código Abierto</div>
-    <div style="position:relative">
-      <div class="vs-badge">VS</div>
-      <div class="vs-grid">
-        <div class="vs-col">
-          <div class="vs-col-title" style="background:rgba(255,122,53,.15);color:var(--orange)">🔒 Propietario</div>
-          <div class="vs-row"><div class="vs-attr">Código</div><div class="vs-val">❌ Cerrado / secreto</div></div>
-          <div class="vs-row"><div class="vs-attr">Modificar</div><div class="vs-val">❌ No permitido</div></div>
-          <div class="vs-row"><div class="vs-attr">Costo</div><div class="vs-val">💰 Generalmente pago</div></div>
-          <div class="vs-row"><div class="vs-attr">Soporte</div><div class="vs-val">✅ Oficial</div></div>
-          <div class="vs-row"><div class="vs-attr">Ejemplos</div><div class="vs-val" style="color:var(--orange)">Windows · macOS · iOS</div></div>
-        </div>
-        <div class="vs-col">
-          <div class="vs-col-title" style="background:rgba(0,240,160,.12);color:var(--green)">🌿 Código Abierto</div>
-          <div class="vs-row"><div class="vs-attr">Código</div><div class="vs-val">✅ Visible y público</div></div>
-          <div class="vs-row"><div class="vs-attr">Modificar</div><div class="vs-val">✅ Libre y legal</div></div>
-          <div class="vs-row"><div class="vs-attr">Costo</div><div class="vs-val">🆓 Generalmente gratis</div></div>
-          <div class="vs-row"><div class="vs-attr">Soporte</div><div class="vs-val">👥 Comunidad</div></div>
-          <div class="vs-row"><div class="vs-attr">Ejemplos</div><div class="vs-val" style="color:var(--green)">Linux · Ubuntu · Android</div></div>
-        </div>
-      </div>
-    </div>
+  <!-- EVALUACION -->
+  <div class="section-header">
+    <div class="sh-line"></div>
+    <div class="sh-badge" style="background:rgba(255,209,102,.12);color:var(--yellow)">⭐ Criterios de evaluación</div>
+    <div class="sh-line"></div>
   </div>
-</div>
-
-<!-- ══ SLIDE 7 — STALLMAN ══ -->
-<div class="slide" id="s7">
-  <div class="slide-inner" style="padding-top:24px">
-    <div class="eyebrow" style="color:var(--green)">// 06 · Software Libre</div>
-    <div class="accent-line" style="background:var(--green)"></div>
-    <div class="slide-title" style="font-size:clamp(22px,6.5vw,32px);margin-bottom:14px">¿Quién definió<br>el Software Libre?</div>
-    <div class="rms-header">
-      <div class="rms-avatar">RMS</div>
-      <div class="rms-info">
-        <h3>Richard Stallman</h3>
-        <p>Nacido en 1953 · Nueva York<br>Programador, activista y filósofo</p>
-        <span class="rms-tag">Fundador GNU · 1983</span>
-      </div>
-    </div>
-    <div class="quote-box">
-      "El software libre es una cuestión de <strong>libertad</strong>, no de precio."
-      <cite>— Richard Stallman, 1985</cite>
-    </div>
-    <div class="hitos">
-      <div class="hito">
-        <span class="hito-year" style="color:var(--green)">1983</span>
-        <span class="hito-text">Lanza el <strong style="color:var(--white)">Proyecto GNU</strong> para crear un SO completamente libre.</span>
-      </div>
-      <div class="hito">
-        <span class="hito-year" style="color:var(--cyan)">1985</span>
-        <span class="hito-text">Funda la <strong style="color:var(--white)">Free Software Foundation (FSF)</strong> y publica el Manifiesto GNU.</span>
-      </div>
-      <div class="hito">
-        <span class="hito-year" style="color:var(--purple)">1989</span>
-        <span class="hito-text">Crea la licencia <strong style="color:var(--white)">GPL</strong> — base legal del software libre.</span>
-      </div>
-      <div class="hito">
-        <span class="hito-year" style="color:var(--orange)">1991</span>
-        <span class="hito-text">Torvalds crea <strong style="color:var(--white)">Linux</strong>, que se combina con GNU para formar GNU/Linux.</span>
-      </div>
-    </div>
+  <div class="eval-rows">
+    <div class="eval-row"><div class="eval-left"><div class="eval-dot" style="background:var(--cyan)"></div>Investigación general (Bloque 1)</div><span class="eval-pct" style="color:var(--cyan)">30%</span></div>
+    <div class="eval-row"><div class="eval-left"><div class="eval-dot" style="background:var(--orange)"></div>Requerimientos de hardware (Bloque 2)</div><span class="eval-pct" style="color:var(--orange)">20%</span></div>
+    <div class="eval-row"><div class="eval-left"><div class="eval-dot" style="background:var(--green)"></div>Análisis crítico — 4 libertades (Bloque 3)</div><span class="eval-pct" style="color:var(--green)">15%</span></div>
+    <div class="eval-row"><div class="eval-left"><div class="eval-dot" style="background:var(--purple)"></div>Claridad y vocabulario en la exposición</div><span class="eval-pct" style="color:var(--purple)">25%</span></div>
+    <div class="eval-row"><div class="eval-left"><div class="eval-dot" style="background:var(--yellow)"></div>Curiosidad / dato llamativo</div><span class="eval-pct" style="color:var(--yellow)">10%</span></div>
   </div>
-</div>
 
-<!-- ══ SLIDE 8 — 4 LIBERTADES ══ -->
-<div class="slide" id="s8">
-  <div class="slide-inner" style="padding-top:24px">
-    <div class="eyebrow" style="color:var(--green)">// 07 · Las 4 Libertades</div>
-    <div class="accent-line" style="background:var(--green)"></div>
-    <div class="slide-title" style="font-size:clamp(22px,6.5vw,32px);margin-bottom:8px">Las 4 Libertades<br>del Software Libre</div>
-    <div class="lib-subtitle">Definidas por R. Stallman y la FSF · desde 1985</div>
-    <div class="libertades">
-      <div class="libertad-card">
-        <div class="lib-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">0</div>
-        <div class="lib-body">
-          <div class="lib-title" style="color:var(--cyan)">Libertad de USAR</div>
-          <div class="lib-desc">Ejecutar el programa para cualquier propósito, sin restricciones.</div>
-          <div class="lib-example" style="background:rgba(0,212,255,.08);color:var(--gray)">Ej: Usás Linux en casa, en la escuela o en una empresa sin pedir permiso.</div>
-        </div>
-      </div>
-      <div class="libertad-card">
-        <div class="lib-num" style="background:rgba(0,240,160,.15);color:var(--green)">1</div>
-        <div class="lib-body">
-          <div class="lib-title" style="color:var(--green)">Libertad de ESTUDIAR</div>
-          <div class="lib-desc">Acceder al código fuente y entender cómo funciona el programa.</div>
-          <div class="lib-example" style="background:rgba(0,240,160,.08);color:var(--gray)">Ej: Cualquiera puede leer y aprender del código de Ubuntu.</div>
-        </div>
-      </div>
-      <div class="libertad-card">
-        <div class="lib-num" style="background:rgba(192,132,252,.15);color:var(--purple)">2</div>
-        <div class="lib-body">
-          <div class="lib-title" style="color:var(--purple)">Libertad de DISTRIBUIR</div>
-          <div class="lib-desc">Copiar y compartir el programa libremente con quien lo necesite.</div>
-          <div class="lib-example" style="background:rgba(192,132,252,.08);color:var(--gray)">Ej: Podés copiar Linux en un pendrive y dárselo a un amigo.</div>
-        </div>
-      </div>
-      <div class="libertad-card">
-        <div class="lib-num" style="background:rgba(255,122,53,.15);color:var(--orange)">3</div>
-        <div class="lib-body">
-          <div class="lib-title" style="color:var(--orange)">Libertad de MEJORAR</div>
-          <div class="lib-desc">Modificar el programa y publicar esas mejoras para toda la comunidad.</div>
-          <div class="lib-example" style="background:rgba(255,122,53,.08);color:var(--gray)">Ej: Ubuntu nació de mejoras hechas sobre Debian por Canonical.</div>
-        </div>
-      </div>
-    </div>
-    <div class="lib-note">
-      ⚠️ <strong>"Libre"</strong> no significa <em>gratuito</em> — significa libre como en <strong>libertad de expresión</strong>, no como en cerveza gratis. <em>(Stallman, 1985)</em>
-    </div>
+  <div class="note">
+    <strong>📌 Recordá:</strong> No copiés y pegues de internet — si lo entendés, podés explicarlo con tus propias palabras. Las mejores exposiciones son las que cuentan la historia del SO, no las que recitan datos.
   </div>
-</div>
 
-<!-- ══ SLIDE 9 — ACTIVIDAD ══ -->
-<div class="slide" id="s9">
-  <div class="slide-inner">
-    <div class="bg-num">★</div>
-    <div class="eyebrow" style="color:var(--cyan)">// 08 · ¡Tu turno!</div>
-    <div class="accent-line" style="background:linear-gradient(90deg,var(--cyan),var(--green))"></div>
-    <div class="slide-title">Actividad de<br>Investigación</div>
-    <div class="activity-steps">
-      <div class="act-step">
-        <div class="act-num">1</div>
-        <div class="act-text">
-          <strong>Elegí un SO</strong>
-          <span>Seleccioná un sistema operativo de la lista que te llame la atención.</span>
-        </div>
-      </div>
-      <div class="act-step">
-        <div class="act-num">2</div>
-        <div class="act-text">
-          <strong>Investigá</strong>
-          <span>Buscá sus características, funciones, tipo, costo y requerimientos de hardware.</span>
-        </div>
-      </div>
-      <div class="act-step">
-        <div class="act-num">3</div>
-        <div class="act-text">
-          <strong>Completá la ficha</strong>
-          <span>Respondé todas las preguntas del formulario con tus propias palabras.</span>
-        </div>
-      </div>
-      <div class="act-step">
-        <div class="act-num">4</div>
-        <div class="act-text">
-          <strong>Presentá a la clase</strong>
-          <span>3 a 5 minutos explicando lo que aprendiste. Podés usar lámina o diapositivas.</span>
-        </div>
-      </div>
-    </div>
-    <button class="activity-btn" onclick="alert('¡Abrí la ficha de investigación para comenzar!')">
-      🚀 Ir a la ficha de investigación
-    </button>
-  </div>
-</div>
-
-</div><!-- /slides -->
+</div><!-- /main -->
 
 <script>
-const slidesEl  = document.getElementById("slides");
-const allSlides = document.querySelectorAll(".slide");
-const dots      = document.querySelectorAll(".dot");
-const counter   = document.getElementById("counter");
-const progress  = document.getElementById("progress-bar");
-const total     = allSlides.length;
-let current     = 0;
-let scrolling   = false;
+const SISTEMAS = [
+  { nombre:"Windows 11",       icono:"🪟", cat:"propietario", cpu:"1 GHz, 64 bits, 2 núcleos", ram:"4 GB",             disco:"64 GB",                                   arq:"x86-64" },
+  { nombre:"Windows 10",       icono:"🪟", cat:"propietario", cpu:"1 GHz, 32/64 bits",         ram:"1-2 GB",           disco:"16-20 GB",                                arq:"x86 / x86-64" },
+  { nombre:"macOS Sonoma",     icono:"🍎", cat:"propietario", cpu:"Apple Silicon o Intel (2017+)", ram:"8 GB",          disco:"26 GB",                                   arq:"ARM / x86-64" },
+  { nombre:"macOS Ventura",    icono:"🍎", cat:"propietario", cpu:"Intel Core (2017+) o Apple M1", ram:"8 GB",          disco:"26 GB",                                   arq:"ARM / x86-64" },
+  { nombre:"iOS 17",           icono:"📱", cat:"propietario", cpu:"Apple A12 Bionic o superior",  ram:"No especificada",disco:"Varía según app",                         arq:"ARM64" },
+  { nombre:"iPadOS 17",        icono:"📱", cat:"propietario", cpu:"Apple A12 Bionic o superior",  ram:"No especificada",disco:"Varía según app",                         arq:"ARM64" },
+  { nombre:"Android (Google)", icono:"🤖", cat:"propietario", cpu:"ARMv7 o superior, 1 GHz",      ram:"512 MB mín.",    disco:"8 GB mín.",                               arq:"ARM / ARM64 / x86" },
+  { nombre:"Chrome OS",        icono:"🌐", cat:"propietario", cpu:"Intel Celeron / ARM Cortex",    ram:"4 GB",           disco:"16-32 GB (eMMC)",                         arq:"x86-64 / ARM" },
+  { nombre:"MS-DOS",           icono:"⌨️", cat:"propietario", cpu:"Intel 8088 / 4.77 MHz",         ram:"640 KB",         disco:"Sin disco requerido (funciona en disquete)",arq:"x86 (16 bits)" },
+  { nombre:"Windows XP",       icono:"🪟", cat:"propietario", cpu:"300 MHz Pentium o superior",    ram:"128 MB",         disco:"1,5 GB",                                  arq:"x86 / x86-64" },
+  { nombre:"IBM OS/360",       icono:"🖥️", cat:"propietario", cpu:"IBM System/360 mainframe",      ram:"16 KB mín.",     disco:"Cinta magnética / tarjetas perforadas",   arq:"IBM 360 (propietaria)" },
+  { nombre:"Solaris",          icono:"☀️", cat:"propietario", cpu:"SPARC / Intel x86-64",           ram:"4 GB",           disco:"20 GB",                                   arq:"SPARC / x86-64" },
+  { nombre:"HP-UX",            icono:"🖨️", cat:"propietario", cpu:"HP PA-RISC / Itanium",           ram:"512 MB",         disco:"4 GB",                                    arq:"PA-RISC / IA-64" },
+  { nombre:"AIX",              icono:"💼", cat:"propietario", cpu:"IBM POWER (cualquier gen.)",     ram:"256 MB",         disco:"2,5 GB",                                  arq:"IBM POWER" },
+  { nombre:"z/OS",             icono:"🏢", cat:"propietario", cpu:"IBM zSeries mainframe",          ram:"GBs (depende del modelo)", disco:"Varios GB en DASD",             arq:"IBM z/Architecture" },
+  { nombre:"QNX",              icono:"⚡", cat:"propietario", cpu:"x86 / ARM desde 200 MHz",       ram:"32 MB mín.",     disco:"Sin disco requerido (puede arrancar en ROM)",arq:"x86 / ARM / MIPS" },
+  { nombre:"VxWorks",          icono:"🚀", cat:"propietario", cpu:"ARM / x86 / PowerPC (embebido)", ram:"Desde 256 KB",  disco:"Sin disco requerido (ROM)",               arq:"ARM / x86 / PowerPC / MIPS" },
+  { nombre:"Ubuntu 24.04",     icono:"🟠", cat:"abierto",     cpu:"2 GHz dual-core x86-64",        ram:"4 GB",           disco:"25 GB",                                   arq:"x86-64 / ARM64" },
+  { nombre:"Debian 12",        icono:"🌀", cat:"abierto",     cpu:"1 GHz Pentium 4 o equiv.",       ram:"256 MB mín.",    disco:"10 GB",                                   arq:"x86 / x86-64 / ARM / MIPS / más" },
+  { nombre:"Fedora 40",        icono:"🎩", cat:"abierto",     cpu:"2 GHz dual-core",               ram:"2 GB",           disco:"15 GB",                                   arq:"x86-64 / ARM64" },
+  { nombre:"Linux Mint",       icono:"🌿", cat:"abierto",     cpu:"1 GHz x86-64",                  ram:"2 GB",           disco:"20 GB",                                   arq:"x86-64" },
+  { nombre:"Arch Linux",       icono:"🏹", cat:"abierto",     cpu:"Cualquier x86-64 moderno",      ram:"512 MB mín.",    disco:"2 GB mín. (recomendado 20+ GB)",          arq:"x86-64" },
+  { nombre:"Kali Linux",       icono:"🐉", cat:"abierto",     cpu:"x86-64 / ARM moderno",          ram:"2 GB",           disco:"20 GB",                                   arq:"x86-64 / ARM / ARM64" },
+  { nombre:"CentOS Stream",    icono:"🔵", cat:"abierto",     cpu:"1.1 GHz x86-64",               ram:"1,5 GB",         disco:"10 GB",                                   arq:"x86-64 / ARM64 / PowerPC" },
+  { nombre:"openSUSE",         icono:"🦎", cat:"abierto",     cpu:"1 GHz x86-64",                  ram:"1 GB mín.",      disco:"10 GB",                                   arq:"x86-64 / ARM64" },
+  { nombre:"Manjaro",          icono:"🏔️", cat:"abierto",     cpu:"1 GHz x86-64",                  ram:"1 GB mín.",      disco:"30 GB",                                   arq:"x86-64 / ARM" },
+  { nombre:"Elementary OS",    icono:"✨", cat:"abierto",     cpu:"Intel i3 o equiv.",             ram:"4 GB",           disco:"32 GB",                                   arq:"x86-64" },
+  { nombre:"FreeBSD",          icono:"😈", cat:"abierto",     cpu:"Pentium o x86-64 moderno",      ram:"96 MB",          disco:"1,5 GB",                                  arq:"x86 / x86-64 / ARM / PowerPC" },
+  { nombre:"OpenBSD",          icono:"🐡", cat:"abierto",     cpu:"Desde Pentium / x86-64",        ram:"64 MB mín.",     disco:"500 MB",                                  arq:"x86 / x86-64 / ARM / SPARC / más" },
+  { nombre:"Haiku OS",         icono:"🌸", cat:"abierto",     cpu:"Pentium II o superior",         ram:"256 MB",         disco:"3 GB",                                    arq:"x86 / x86-64" },
+  { nombre:"ReactOS",          icono:"⚛️", cat:"abierto",     cpu:"Pentium (500 MHz)",             ram:"96 MB",          disco:"500 MB",                                  arq:"x86" },
+  { nombre:"Android-x86",      icono:"🤖", cat:"abierto",     cpu:"Intel Atom / x86 moderno",     ram:"2 GB",           disco:"8 GB",                                    arq:"x86 / x86-64" },
+  { nombre:"Tails OS",         icono:"🔒", cat:"abierto",     cpu:"x86-64 moderno",               ram:"2 GB",           disco:"Sin disco requerido (live USB)",          arq:"x86-64" },
+  { nombre:"Alpine Linux",     icono:"🏔️", cat:"abierto",     cpu:"Desde 200 MHz",                ram:"128 MB",         disco:"700 MB mín.",                             arq:"x86 / x86-64 / ARM / ARM64 / más" },
+];
 
-function updateUI(idx) {
-  current = idx;
-  const pct = ((idx + 1) / total * 100).toFixed(1);
-  progress.style.width = pct + "%";
-  counter.textContent  = String(idx + 1).padStart(2,"0") + " / " + String(total).padStart(2,"0");
-  dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+let filtroActual = "todos";
+
+function renderReqs(lista) {
+  const cont = document.getElementById("req-list");
+  document.getElementById("req-count").textContent = lista.length + " sistemas";
+  if (!lista.length) { cont.innerHTML = '<p style="color:var(--gray);font-size:13px;padding:10px 0">Sin resultados.</p>'; return; }
+  cont.innerHTML = lista.map(s => `
+    <div class="req-card">
+      <div class="req-card-name">
+        <span class="icon">${s.icono}</span>
+        <span>${s.nombre}</span>
+        <span class="cat-badge" style="background:${s.cat==='propietario'?'rgba(255,122,53,.2)':'rgba(0,240,160,.2)'};color:${s.cat==='propietario'?'var(--orange)':'var(--green)'}">
+          ${s.cat==='propietario'?'🔒 Propietario':'🌿 Abierto'}
+        </span>
+      </div>
+      <div class="req-grid">
+        <div class="req-cell">
+          <div class="rc-label" style="color:var(--cyan)">🖥 CPU</div>
+          <div class="rc-val">${s.cpu}</div>
+        </div>
+        <div class="req-cell">
+          <div class="rc-label" style="color:var(--green)">💾 RAM</div>
+          <div class="rc-val">${s.ram}</div>
+        </div>
+        <div class="req-cell">
+          <div class="rc-label" style="color:var(--orange)">💿 Disco</div>
+          <div class="rc-val">${s.disco}</div>
+        </div>
+        <div class="req-cell">
+          <div class="rc-label" style="color:var(--purple)">⚙️ Arquitectura</div>
+          <div class="rc-val">${s.arq}</div>
+        </div>
+      </div>
+    </div>
+  `).join("");
 }
 
-function goTo(idx) {
-  allSlides[idx].scrollIntoView({ behavior: "smooth" });
-}
-
-// Detect which slide is visible via IntersectionObserver
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const idx = Array.from(allSlides).indexOf(e.target);
-      updateUI(idx);
-    }
+function filtrarReqs() {
+  const busq = document.getElementById("req-search").value.toLowerCase();
+  const lista = SISTEMAS.filter(s => {
+    const mB = s.nombre.toLowerCase().includes(busq);
+    const mF = filtroActual === "todos" || s.cat === filtroActual;
+    return mB && mF;
   });
-}, { root: slidesEl, threshold: 0.55 });
+  renderReqs(lista);
+}
 
-allSlides.forEach(s => observer.observe(s));
+function setFiltroReq(f) {
+  filtroActual = f;
+  ["todos","propietario","abierto"].forEach(id =>
+    document.getElementById("fb-"+id).classList.toggle("active", id === f)
+  );
+  filtrarReqs();
+}
 
-// Keyboard nav
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowDown" || e.key === " ") { e.preventDefault(); goTo(Math.min(current + 1, total - 1)); }
-  if (e.key === "ArrowUp")                     { e.preventDefault(); goTo(Math.max(current - 1, 0)); }
-});
-
-// Touch swipe (vertical)
-let touchY = 0;
-slidesEl.addEventListener("touchstart", e => { touchY = e.touches[0].clientY; }, { passive: true });
-slidesEl.addEventListener("touchend",   e => {
-  const diff = touchY - e.changedTouches[0].clientY;
-  if (Math.abs(diff) > 40) {
-    if (diff > 0) goTo(Math.min(current + 1, total - 1));
-    else          goTo(Math.max(current - 1, 0));
-  }
-}, { passive: true });
+renderReqs(SISTEMAS);
 </script>
 </body>
 </html>
